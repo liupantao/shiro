@@ -8,16 +8,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gsoft.shiro.config.ShiroRealm;
 import com.gsoft.shiro.entity.LoginResult;
 import com.gsoft.shiro.service.LoginService;
 
 @Controller
-public class TestController {
+public class LoginController {
+	
+	/**
+     * Logger
+     */
+    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+	
   
 	    @Resource
 	    private LoginService loginService;
@@ -33,10 +42,13 @@ public class TestController {
 	        return "/user/403";
 	    }
 
+	   
+	    
 	    @RequestMapping(value = "/login",method = RequestMethod.GET)
 	    public String toLogin(Map<String, Object> map,HttpServletRequest request)
 	    {
 	        loginService.logout();
+	        log.info("注销系统---》");
 	        return "/user/login";
 	    }
 
@@ -60,6 +72,7 @@ public class TestController {
 
 	    @RequestMapping("/logout")
 	    public String logOut(HttpSession session) {
+	    	log.info("注销系统---》");
 	        loginService.logout();
 	        return "/user/login";
 	    }
