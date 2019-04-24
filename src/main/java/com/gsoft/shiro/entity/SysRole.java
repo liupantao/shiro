@@ -4,6 +4,7 @@
 package com.gsoft.shiro.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -58,7 +59,7 @@ public class SysRole implements Serializable {
 	/**
 	 * 角色菜单
 	 */
-	@ManyToMany(targetEntity = SysMenu.class, fetch = FetchType.LAZY)
+	@ManyToMany(targetEntity = SysMenu.class, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "SYS_ROLE_MENU", joinColumns = {
 			@JoinColumn(name = "ROLE_ID") }, 

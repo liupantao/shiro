@@ -102,13 +102,13 @@ public class SysUser implements Serializable {
 	/**
 	 * 角色集合
 	 */
-	@ManyToMany(targetEntity = SysRole.class)
+	@ManyToMany(targetEntity = SysRole.class, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "SYS_USER_ROLE", 
 			joinColumns = { @JoinColumn(name = "USER_ID") }, 
 			inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
 		)
-	private List<SysRole> roles;
+	private List<SysRole> roles=new ArrayList<>();
 	
 	public String getTelephone() {
 		return telephone;

@@ -17,7 +17,10 @@ spring:
     show-sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-
+    properties:
+     open-in-view: true
+     hibernate:
+      enable_lazy_load_no_trans: true
   thymeleaf:
     cache: false
 

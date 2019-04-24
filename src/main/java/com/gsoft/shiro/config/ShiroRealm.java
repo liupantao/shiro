@@ -40,15 +40,15 @@ public class ShiroRealm extends AuthorizingRealm {
         //如果身份认证的时候没有传入User对象，这里只能取到userName
         //也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
         SysUser user  = (SysUser)principals.getPrimaryPrincipal();
-
-        for(SysRole role:user.getRoles()){
+        List<SysRole> roles = user.getRoles();
+        for(SysRole role:roles){
             authorizationInfo.addRole(role.getRoleId());
-            for(SysPermission p:role.getPerms()){
+            List<SysPermission> perms = role.getPerms();
+            for(SysPermission p:perms){
                 authorizationInfo.addStringPermission(p.getId());
             }
         }
         
-        List<SysRole> roles = user.getRoles();
         return authorizationInfo;
     }
 
@@ -57,14 +57,14 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
     	log.info("开始执行shiroRealm-->doGetAuthenticationInfo--验证用户---");
-        System.out.println("MyShiroRealm.doGetAuthenticationInfo()");
         //获取用户的输入的账号.
         String userName = (String)token.getPrincipal();
         System.out.println(token.getCredentials());
         //通过username从数据库中查找 User对象.
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         SysUser user = userService.findByUserName(userName);
-        System.out.println("----->>user="+user);
+        
+        log.info("----->>user--->{}",user);
         if(user == null){
             return null;
         }
